@@ -1,28 +1,59 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="container">
+      <VisualList 
+        :size="40" 
+        :items="items"
+        :remain="8"
+        :variable="true"
+      >
+        <template v-slot="item">
+          <Item :info="item.id + ' ------  ' + item.value"></Item>
+        </template>
+      </VisualList>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Mock from 'mockjs';
+import VisualList from './components/visual-list'
+import Item from './components/item.vue'
+
+let items = []
+
+for (let i = 0; i < 1000; i++) {
+  items.push({ id: i, value: Mock.Random.sentence(5, 20) })
+}
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    VisualList,
+    Item
+  },
+  data() {
+    return {
+      items
+    }
   }
 }
 </script>
 
 <style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  margin: 0;
+  padding: 0;
+  * {
+    box-sizing: border-box;
+  }
+  .container {
+    width: 400px;
+    margin: 200px auto;
+    border: 1px solid #ccc;
+    .item {
+      padding: 5px;
+    }
+  }
 }
 </style>

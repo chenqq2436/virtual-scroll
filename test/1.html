@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <ul id="list"></ul>
+  <script>
+    // 微任务队列是每次批量执行 清空操作 宏任务是每次取出一个去执行
+    const list = document.querySelector('#list')
+    let start = Date.now()
+    // 高版本浏览器的优化机制 并不会一条条加上去 而是等都创建完一起追加，一条条追加会触发浏览器的重绘 性能损耗高
+    for (let i = 0; i < 100000; i++) {
+      let li = document.createElement('li')
+      li.innerHTML = i
+      list.appendChild(li)
+    }
+    let end = Date.now()
+    console.log(end - start)
+    // GUI渲染会在下一个宏任务之前执行
+    setTimeout(() => {
+      console.log(Date.now() - start)
+    }, 0)
+  </script>
+</body>
+
+</html>
